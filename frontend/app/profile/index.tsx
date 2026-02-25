@@ -76,7 +76,9 @@ const ProfileScreen = () => {
                 onRetry={onRefresh}
               />
             ) : null}
-            <ProgressBar percentage={completionPercentage} />
+            {sections.length > 0 ? (
+              <ProgressBar percentage={completionPercentage} />
+            ) : null}
           </>
         }
         refreshing={loading}
