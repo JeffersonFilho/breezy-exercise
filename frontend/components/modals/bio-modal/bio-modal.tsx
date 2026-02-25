@@ -1,15 +1,10 @@
-import { Box, Button, Input, Text } from "@/components/ui";
+import { Box, ModalContent, Text } from "@/components/ui";
 import { useProfile, useUpdateSection } from "@/hooks/use-profile";
 import { useSafeSubmit } from "@/hooks/use-safe-submit";
 import { useTheme } from "@/hooks/use-theme";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { Input } from "@/components/ui";
 
 const MAX_CHARS = 500;
 
@@ -43,86 +38,61 @@ export const BioModal = () => {
     );
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.flex}
+    <ModalContent
+      submitLabel="Save Bio"
+      onSubmit={handleSubmit(onSubmit)}
+      loading={loading}
     >
-      <ScrollView style={styles.flex} contentContainerStyle={styles.container}>
-        <Box style={styles.field}>
-          <Text type="label" color={colors.textPrimary}>
-            About Me
+      <Box style={{ gap: 6 }}>
+        <Text type="label" color={colors.textPrimary}>
+          About Me
+        </Text>
+        <Box style={{ marginBottom: 4 }}>
+          <Text type="caption" color={colors.textSecondary}>
+            Tell potential clients about yourself, your experience, and what
+            sets you apart.
           </Text>
-          <Box style={{ marginBottom: 4 }}>
-            <Text type="caption" color={colors.textSecondary}>
-              Tell potential clients about yourself, your experience, and what
-              sets you apart.
-            </Text>
-          </Box>
-          <Controller
-            control={control}
-            name="bio"
-            rules={{
-              validate: (v) =>
-                v.trim().length > 0 || "Please write a bio before saving.",
-            }}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                value={value}
-                onChangeText={(text) => {
-                  if (text.length <= MAX_CHARS) onChange(text);
-                }}
-                onBlur={onBlur}
-                placeholder="I'm a dedicated real estate agent with 10+ years of experience..."
-                multiline
-                numberOfLines={8}
-                textAlignVertical="top"
-                style={styles.textArea}
-                error={!!errors.bio}
-              />
-            )}
-          />
-          {errors.bio?.message ? (
-            <Text type="error">{errors.bio.message}</Text>
-          ) : null}
-          <Box style={{ marginTop: 4 }}>
-            <Text
-              type="caption"
-              textAlign="right"
-              color={
-                bioValue.length > MAX_CHARS * 0.9
-                  ? colors.errorText
-                  : colors.textSecondary
-              }
-            >
-              {bioValue.length}/{MAX_CHARS}
-            </Text>
-          </Box>
         </Box>
-
-        <Button
-          label="Save Bio"
-          onPress={handleSubmit(onSubmit)}
-          loading={loading}
-          style={styles.saveButton}
+        <Controller
+          control={control}
+          name="bio"
+          rules={{
+            validate: (v) =>
+              v.trim().length > 0 || "Please write a bio before saving.",
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              value={value}
+              onChangeText={(text) => {
+                if (text.length <= MAX_CHARS) onChange(text);
+              }}
+              onBlur={onBlur}
+              placeholder="I'm a dedicated real estate agent with 10+ years of experience..."
+              multiline
+              numberOfLines={8}
+              textAlignVertical="top"
+              style={{ minHeight: 160 }}
+              error={!!errors.bio}
+            />
+          )}
         />
-      </ScrollView>
-    </KeyboardAvoidingView>
+        {errors.bio?.message ? (
+          <Text type="error">{errors.bio.message}</Text>
+        ) : null}
+        <Box style={{ marginTop: 4 }}>
+          <Text
+            type="caption"
+            textAlign="right"
+            color={
+              bioValue.length > MAX_CHARS * 0.9
+                ? colors.errorText
+                : colors.textSecondary
+            }
+          >
+            {bioValue.length}/{MAX_CHARS}
+          </Text>
+        </Box>
+      </Box>
+    </ModalContent>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: { flex: 1 },
-  container: {
-    padding: 24,
-    gap: 20,
-  },
-  field: {
-    gap: 6,
-  },
-  textArea: {
-    minHeight: 160,
-  },
-  saveButton: {
-    marginTop: 8,
-  },
-});

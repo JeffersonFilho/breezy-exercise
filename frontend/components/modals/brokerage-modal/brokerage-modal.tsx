@@ -1,15 +1,9 @@
 import React from 'react';
-import {
-  StyleSheet,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
 import { useForm } from 'react-hook-form';
 import { useTheme } from '@/hooks/use-theme';
 import { useUpdateSection, useProfile } from '@/hooks/use-profile';
 import { useSafeSubmit } from '@/hooks/use-safe-submit';
-import { Input, Button } from '@/components/ui';
+import { Input, ModalContent } from '@/components/ui';
 
 type BrokerageForm = {
   brokerageName: string;
@@ -40,55 +34,36 @@ export const BrokerageModal = () => {
     }));
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.flex}
+    <ModalContent
+      submitLabel="Save Brokerage Info"
+      onSubmit={handleSubmit(onSubmit)}
+      loading={loading}
     >
-      <ScrollView style={styles.flex} contentContainerStyle={styles.container}>
-        <Input
-          control={control}
-          name="brokerageName"
-          label="Brokerage Name"
-          labelColor={colors.textPrimary}
-          placeholder="Keller Williams Realty"
-          rules={{ required: 'Brokerage name is required' }}
-        />
+      <Input
+        control={control}
+        name="brokerageName"
+        label="Brokerage Name"
+        labelColor={colors.textPrimary}
+        placeholder="Keller Williams Realty"
+        rules={{ required: 'Brokerage name is required' }}
+      />
 
-        <Input
-          control={control}
-          name="licenseNumber"
-          label="License Number"
-          labelColor={colors.textPrimary}
-          placeholder="DRE# 01234567"
-          rules={{ required: 'License number is required' }}
-        />
+      <Input
+        control={control}
+        name="licenseNumber"
+        label="License Number"
+        labelColor={colors.textPrimary}
+        placeholder="DRE# 01234567"
+        rules={{ required: 'License number is required' }}
+      />
 
-        <Input
-          control={control}
-          name="officeAddress"
-          label="Office Address"
-          labelColor={colors.textPrimary}
-          placeholder="123 Main St, Suite 100"
-        />
-
-        <Button
-          label="Save Brokerage Info"
-          onPress={handleSubmit(onSubmit)}
-          loading={loading}
-          style={styles.saveButton}
-        />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      <Input
+        control={control}
+        name="officeAddress"
+        label="Office Address"
+        labelColor={colors.textPrimary}
+        placeholder="123 Main St, Suite 100"
+      />
+    </ModalContent>
   );
 };
-
-const styles = StyleSheet.create({
-  flex: { flex: 1 },
-  container: {
-    padding: 24,
-    gap: 20,
-  },
-  saveButton: {
-    marginTop: 8,
-  },
-});

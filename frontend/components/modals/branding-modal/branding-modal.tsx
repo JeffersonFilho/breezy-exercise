@@ -1,15 +1,11 @@
-import { Box, Button, Input, Text } from "@/components/ui";
+import { Box, ModalContent, Text } from "@/components/ui";
 import { useProfile, useUpdateSection } from "@/hooks/use-profile";
 import { useSafeSubmit } from "@/hooks/use-safe-submit";
 import { useTheme } from "@/hooks/use-theme";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-} from "react-native";
+import { StyleSheet } from "react-native";
+import { Button, Input } from "@/components/ui";
 
 const COLOR_OPTIONS = ["#2E8B57", "#1E3A5F", "#8B3A3A", "#4A4A4A"];
 
@@ -42,94 +38,81 @@ export const BrandingModal = () => {
     }));
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={styles.flex}
+    <ModalContent
+      submitLabel="Save Branding"
+      onSubmit={handleSubmit(onSubmit)}
+      loading={loading}
     >
-      <ScrollView style={styles.flex} contentContainerStyle={styles.container}>
-        <Box style={styles.field}>
-          <Text type="label" color={colors.textPrimary}>
-            Team Name
-          </Text>
-          <Controller
-            control={control}
-            name="teamName"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                placeholder="The Dream Team Realtors"
-              />
-            )}
-          />
-        </Box>
-
-        <Box style={styles.field}>
-          <Text type="label" color={colors.textPrimary}>
-            Primary Brand Color
-          </Text>
-          <Box style={styles.colorRow}>
-            {COLOR_OPTIONS.map((color) => (
-              <Button
-                key={color}
-                style={[
-                  styles.colorSwatch,
-                  { backgroundColor: color },
-                  primaryColor === color && styles.colorSelected,
-                ]}
-                onPress={() => setValue("primaryColor", color)}
-                accessibilityLabel={`Select color ${color}`}
-              />
-            ))}
-          </Box>
-          <Controller
-            control={control}
-            name="primaryColor"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                value={value}
-                onChangeText={onChange}
-                onBlur={onBlur}
-                placeholder="#2E8B57"
-                autoCapitalize="none"
-              />
-            )}
-          />
-        </Box>
-
-        <Box style={styles.previewContainer}>
-          <Text type="label" color={colors.textPrimary}>
-            Preview
-          </Text>
-          <Box style={[styles.previewCard, { borderColor: primaryColor }]}>
-            <Box
-              style={[styles.previewHeader, { backgroundColor: primaryColor }]}
-            >
-              <Text type="title" color="#FFFFFF">
-                {teamName || "Your Team Name"}
-              </Text>
-            </Box>
-          </Box>
-        </Box>
-
-        <Button
-          label="Save Branding"
-          onPress={handleSubmit(onSubmit)}
-          loading={loading}
-          style={styles.saveButton}
+      <Box style={styles.field}>
+        <Text type="label" color={colors.textPrimary}>
+          Team Name
+        </Text>
+        <Controller
+          control={control}
+          name="teamName"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              placeholder="The Dream Team Realtors"
+            />
+          )}
         />
-      </ScrollView>
-    </KeyboardAvoidingView>
+      </Box>
+
+      <Box style={styles.field}>
+        <Text type="label" color={colors.textPrimary}>
+          Primary Brand Color
+        </Text>
+        <Box style={styles.colorRow}>
+          {COLOR_OPTIONS.map((color) => (
+            <Button
+              key={color}
+              style={[
+                styles.colorSwatch,
+                { backgroundColor: color },
+                primaryColor === color && styles.colorSelected,
+              ]}
+              onPress={() => setValue("primaryColor", color)}
+              accessibilityLabel={`Select color ${color}`}
+            />
+          ))}
+        </Box>
+        <Controller
+          control={control}
+          name="primaryColor"
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              value={value}
+              onChangeText={onChange}
+              onBlur={onBlur}
+              placeholder="#2E8B57"
+              autoCapitalize="none"
+            />
+          )}
+        />
+      </Box>
+
+      <Box style={styles.previewContainer}>
+        <Text type="label" color={colors.textPrimary}>
+          Preview
+        </Text>
+        <Box style={[styles.previewCard, { borderColor: primaryColor }]}>
+          <Box
+            style={[styles.previewHeader, { backgroundColor: primaryColor }]}
+          >
+            <Text type="title" color="#FFFFFF">
+              {teamName || "Your Team Name"}
+            </Text>
+          </Box>
+        </Box>
+      </Box>
+    </ModalContent>
   );
 };
 
 const styles = StyleSheet.create({
-  flex: { flex: 1 },
-  container: {
-    padding: 24,
-    gap: 20,
-  },
   field: {
     gap: 6,
   },
@@ -163,8 +146,5 @@ const styles = StyleSheet.create({
   previewHeader: {
     padding: 16,
     alignItems: "center",
-  },
-  saveButton: {
-    marginTop: 8,
   },
 });
