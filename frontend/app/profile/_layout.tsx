@@ -1,6 +1,7 @@
 import { useTheme } from "@/hooks/use-theme";
 import { Stack } from "expo-router";
 import React from "react";
+import { Platform } from "react-native";
 
 const ProfileLayout = () => {
   const colors = useTheme();
@@ -26,7 +27,7 @@ const ProfileLayout = () => {
       <Stack.Screen
         name="sections/[id]"
         options={{
-          presentation: "modal",
+          presentation: Platform.select({ ios: "modal", default: "formSheet" }),
           headerShown: false,
         }}
       />
