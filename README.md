@@ -57,6 +57,7 @@ The backend intentionally injects failures to test error handling:
 - **409 conflict handling**: Informative toast message, cache rollback, auto-refresh of stale data
 - **Cancellable uploads**: Photo uploads can be cancelled mid-flight (client abort + server-side socket check)
 - **Unmount safety**: `useIsMounted` guard prevents toast/navigation after component unmount
+- **Shared modal wrapper**: `ModalContent` component provides consistent KeyboardAvoidingView + ScrollView + submit button layout across all form modals
 - **Form validation**: react-hook-form with per-field validation rules
 - **Animated progress bar**: Gradient fill via expo-linear-gradient with smooth reanimated transitions
 - **Dark mode**: Full theme support following system preferences
@@ -88,7 +89,7 @@ breezy-test/
 │   │   ├── skeleton-loader/      # Loading placeholders
 │   │   ├── offline-banner/       # Network status banner
 │   │   ├── error-boundary/       # React error boundary
-│   │   └── ui/                   # Primitives (Box, Text, Input, Button)
+│   │   └── ui/                   # Primitives (Box, Text, Input, Button, ModalContent)
 │   ├── hooks/
 │   │   ├── use-profile.ts        # TanStack Query hooks (useProfile, useUpdateSection, useUploadPhoto)
 │   │   ├── use-is-mounted.ts     # Unmount safety guard
