@@ -32,12 +32,10 @@ export const ErrorBanner = ({
       <Text type="caption" color={colors.textSecondary}>{message}</Text>
       {onRetry ? (
         <Button
-          variant="outline"
           label="Retry"
           onPress={onRetry}
           loading={loading}
-          style={[styles.retryButton, { borderColor: colors.accent }]}
-          color={colors.accent}
+          style={styles.retryButton}
         />
       ) : null}
     </Animated.View>
