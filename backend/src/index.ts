@@ -37,8 +37,8 @@ app.get("/api/profile", async (_req, res) => {
 app.put("/api/profile/sections/:sectionId", async (req, res) => {
   try {
     await randomDelay(500, 1000);
-    maybeConflict(0.55);
-    maybeServerError(0.3);
+    maybeConflict(0.15);
+    maybeServerError(0.1);
     const { sectionId } = req.params;
     const { status, data } = req.body;
     const section = updateSection(sectionId, status, data);
